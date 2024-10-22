@@ -1,0 +1,158 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+
+}
+button {
+	height: 25px;
+	width: 100px;
+}
+hr {
+	border: none;
+	color: gray;
+	height: 3px;
+	background-color: black;
+}
+nav {
+	text-align: left;
+	flex: 1;
+}
+nav ul {
+	display: inline-block;
+	list-style-type: none;
+}
+nav ul li {
+	display: inline-block;
+	margin-right: 15px;
+}
+nav a:hover {
+	background-color: #03b6fc;
+	color: white;
+}
+
+table {
+	margin: auto;
+	overflow: auto;
+	word-break: break-word;
+	border: 2px solid;
+}
+td {
+	padding: 5px;
+	border: 1px solid
+}
+th {
+	height: 25px;
+	padding: 5px;
+	border: 2px solid
+}
+.cartheader {
+	margin-right: 15px;
+	margin-left: 15px;
+}
+.cartprice {
+	color: black;
+	margin-top: 10px;
+	font-size: 18px;
+}
+.cartqty {
+	display: inline-block;
+}
+.cartredirect {
+	padding: 15px;
+}
+.cartredirect p {
+	font-size: 20px;
+}
+.center {
+	text-align: center;
+	align-items: center;
+	margin: auto;
+	width: 85%;
+}
+.center button {
+	width: fit-content;
+}
+.center table {
+	border: none;
+	border-collapse: collapse;
+	
+}
+.center table th {
+	overflow: hidden;
+    white-space: nowrap;
+}
+.featured {
+	margin: auto;
+	border: 3px solid red;
+	border: inset 1px solid black;
+	right: 0;
+	bottom: 0;
+	background-color: gray;
+}
+.featured img {
+	height: 250px;
+	width: 350px;
+	display: block;
+}
+.menu {
+	display: flex;
+	align-items: center;
+	padding: 20px;
+	background-color: #D3D3D3;
+}
+.menu a {
+	text-decoration: none;
+	color: black;
+	font-family: "Lucida Console";
+}
+.menu button {
+	border: none;
+	padding: 0;	
+	background: none;
+	text-decoration: none;
+	color: black;
+	font-family: "Lucida Console";
+	font-size: 16px;
+	width: fit-content;
+	height: fit-content;
+	display: inline;
+	align-items: center;
+}
+.menu button:hover {
+	background-color: #03b6fc;
+	color: white;
+	cursor: pointer;
+}
+.product {
+	border: 3px solid black;
+	padding: 15px;
+	margin-bottom: 15px;
+	margin-right: 15px;
+	margin-left: 15px;
+}
+.prompt button {
+	width: fit-content;
+}
+.section {
+	flex: 50%;
+	text-align: center;
+	margin: auto;
+	align-items: center;
+}
+.section button {
+	width: fit-content;
+}
+.split {
+	display: flex;
+}
+.totalprice {
+	text-align: left;
+}
+.leftbar {
+    float: left;
+    height: 400px;
+    width: 150px;
+    background: #FFFFFF;
+    border: 1px solid #ffd9b3;
+}
