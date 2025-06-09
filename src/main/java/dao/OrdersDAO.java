@@ -10,5 +10,5 @@ public interface OrdersDAO {
 	
 	public boolean createOrder(Cart cart, String clientId);
 	
-	public List<Order> getOrders(String clientID, ClientsDAO clientDao, ItemsDAO itemDao);
+	public List<Order> getOrders(String clientID, ClientsDAO clientDAO, ItemsDAO itemDAO);
 }

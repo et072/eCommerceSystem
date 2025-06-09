@@ -29,6 +29,7 @@
 				<!-- Display billing and shipping information -->
 				<div id='billBox'>
 					<h3>Billing Information</h3>
+					<!-- textboxes that allow user to update -->
 					Address:<input type='text' name='addressB' value="${sessionScope.billingAddress }" /> 
 					Province:<input type='text' name='provinceB' value="${sessionScope.billingProvince }" />
 					Country:<input type='text' name='countryB' value="${sessionScope.billingCountry }" /> 
@@ -38,6 +39,7 @@
 
 				<div id='shipBox'>
 					<h3>Shipping Information</h3>
+					<!-- textboxes that allow user to update -->
 					Address:<input type='text' name='addressS' value="${sessionScope.shippingAddress }" /> 
 					Province:<input type='text' name='provinceS' value="${sessionScope.shippingProvince }" />
 					Country:<input type='text' name='countryS' value="${sessionScope.shippingCountry }" /> 

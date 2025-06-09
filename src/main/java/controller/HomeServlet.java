@@ -15,6 +15,7 @@ import model.Cart;
 
 /**
  * Servlet implementation class HomeServlet
+ * Handles setting session attributes for the initial landing page when the web application is started for the first time.
  */
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
@@ -26,12 +27,10 @@ public class HomeServlet extends HttpServlet {
     public HomeServlet() {
         super();
     }
-
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-	}
+    
+    public void init(ServletConfig config) throws ServletException {
+    	
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -44,11 +43,18 @@ public class HomeServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Get current session
 		HttpSession session = request.getSession(true);
 		
-		Cart cart = new Cart();
-		session.setAttribute("cart", cart); // Save cart into the session
+		// Path to home page
+		String url = "jsp/home.jsp";
 		
+		// New cart
+		Cart cart = new Cart();
+		
+		session.setAttribute("cart", cart);		// Save cart in current session
+		
+		// Set new session attributes
 		session.setAttribute("CCCounter", 1);
 		session.setAttribute("loggedIn", "no");
 		session.setAttribute("status", "null");
@@ -56,7 +62,7 @@ public class HomeServlet extends HttpServlet {
 		session.setAttribute("cart", new Cart());
 		session.setAttribute("ordersTotalPrice", 0);
 		
-		RequestDispatcher req = request.getRequestDispatcher("jsp/home.jsp");
+		RequestDispatcher req = request.getRequestDispatcher(url);
 		req.forward(request, response);
 	}
 

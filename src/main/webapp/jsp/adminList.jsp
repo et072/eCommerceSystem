@@ -21,5 +21,6 @@
 		<a href="AdminServlet?action=order"><button>Go to Orders</button></a>
 	</div>
 	
+	<!-- inventory listed as optional in document -->
 </body>
 </html>

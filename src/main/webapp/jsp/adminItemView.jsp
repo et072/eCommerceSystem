@@ -17,10 +17,10 @@
 
 		<c:forEach items="${itemList}" var="item">
 			<tr>
-				<!-- Display name -->
+				<!-- display name -->
 				<td>${item.getName() }</td>
 
-				<!-- Display price -->
+				<!-- display price -->
 				<td>$${item.getPrice()}</td>
 				
 			</tr>

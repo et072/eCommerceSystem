@@ -64,7 +64,7 @@
 						
 					</tr>
 				</c:forEach>
-			<!-- Total price obtained from AdminServlet-->
+			<!-- total price obtained from AdminServlet-->
 			<tr>
 				<td colspan="100%" class="totalprice">Total Price: $ <fmt:formatNumber
 						type="number" minFractionDigits="2" maxFractionDigits="2"

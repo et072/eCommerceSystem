@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -21,30 +20,31 @@ import model.Item;
 
 /**
  * Servlet implementation class OrderServlet
+ * Handles the requests to process of orders and updating of database to reflect it.
+ * Web app does not use a real payment system. Handles logic that simulates credit card authorization failure.
  */
 @WebServlet("/OrderServlet")
 public class OrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private OrdersDAO ordersDao;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public OrderServlet() {
-		super();
-	}
-
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		ServletContext context = config.getServletContext();;
+	private OrdersDAO ordersDAO;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public OrderServlet() {
+        super();
+    }
+    
+    public void init(ServletConfig config) throws ServletException {
+    	super.init(config);
+    	ServletContext context = config.getServletContext();
+    	
+    	// Set path to order database file
 		String path = context.getRealPath("/dbFile/order.db");
-		ordersDao = new OrdersDAOImpl();
+		ordersDAO = new OrdersDAOImpl();
 		
-		ordersDao.setPath(path);
-	}
+		ordersDAO.setPath(path);
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -57,36 +57,43 @@ public class OrderServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Get current session
 		HttpSession session = request.getSession(true);
 		
 		Cart cart;
-		synchronized (session) { // Synchronized to prevent concurrent updates
+		
+		synchronized (session) { // synchronized to prevent concurrent updates
 			// Retrieve the shopping cart for this session, if any. Otherwise, create one.
 			cart = (Cart) session.getAttribute("cart");
-			if (cart == null) { // If no cart exists, create one.
+			
+			if (cart == null) { // No cart, create one.
 				cart = new Cart();
-				session.setAttribute("cart", cart); // Save cart into the session
+				session.setAttribute("cart", cart); // Save it into session
 			}
 		}
-
-
-		// Increment CCCounter
+		
+		/*
+		 * Web application does not run through an actual payment system
+		 * Used a counter to simulate credit card authorization failing. Fails every third attempt.
+		 * Set session attribute that counts the number of credit card authorization attempts to do this.
+		 */
 		int counter = Integer.parseInt(String.valueOf(session.getAttribute("CCCounter")));
-		session.setAttribute("CCCounter", counter+1);
-
-		// Create order update
-		ordersDao.createOrder(cart, String.valueOf(session.getAttribute("userid")));
-
+		session.setAttribute("CCCounter", counter + 1);
+		
+		// Create order and update database
+		ordersDAO.createOrder(cart, String.valueOf(session.getAttribute("userid")));
+		
+		// Get total price of the cart and set it as an attribute to pass along
 		double totalPrice = cart.getTotalPrice();
-
 		request.setAttribute("totalPrice", totalPrice);
-
-		// Clear cart
+		
+		// Order complete. Clear the cart and pass along the summary of items as an attribute for the order completion screen.
 		List<Item> summary = cart.getItems();
 		session.setAttribute("summary", summary);
 		cart.clear();
-
+		
 		RequestDispatcher req = request.getRequestDispatcher("jsp/order.jsp");
 		req.forward(request, response);
 	}
+
 }

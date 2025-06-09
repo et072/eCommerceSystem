@@ -1,17 +1,23 @@
 package dao;
 
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import model.Client;
 
+/*
+ * Provides an interface to the database for client/account holder data.
+ * Allows for web application to communicate with the database to login, get account information, or update account information.
+ */
+
 public interface ClientsDAO {
+	
+	public void setPath(String path);
 	
 	public Client login(String username, String password);
 	
-	public void setPath(String path);
+	public Client login(String id);
 	
 	public Client register(HttpServletRequest request);
 	
@@ -26,6 +32,4 @@ public interface ClientsDAO {
 	public String getStatus(String id);
 	
 	public List<Client> getAccounts();
-	
-	public Client login(String id);
 }

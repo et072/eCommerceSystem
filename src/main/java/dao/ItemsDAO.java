@@ -5,6 +5,11 @@ import java.util.List;
 import model.Category;
 import model.Item;
 
+/*
+ * Provides an interface to the database for product data.
+ * Allows for web application to communicate with the database to search for store products
+ */
+
 public interface ItemsDAO {
 	public List<Item> findAllItems();
 	
@@ -24,8 +29,5 @@ public interface ItemsDAO {
 	
 	public List<Item> findItemsByBrand(String brand);
 	
-	
 	public Item getItem(long id);
-
-	
 }

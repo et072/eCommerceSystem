@@ -3,7 +3,6 @@ package controller;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -19,29 +18,31 @@ import model.Client;
 
 /**
  * Servlet implementation class RegisterServlet
+ * Handles user registration requests
+ * 
+ * Possible improvements:
+ * Change the setting of user session attributes to simply passing a Client object/bean as an attribute
  */
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ClientsDAO clientsDao;
+	private ClientsDAO clientsDAO;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public RegisterServlet() {
+        super();
+    }
 
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public RegisterServlet() {
-		super();
-	}
-
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
 	public void init(ServletConfig config) throws ServletException {
 		ServletContext context = config.getServletContext();
+		
+		// Set path to client database file
 		String path = context.getRealPath("/dbFile/client.db");
-		clientsDao= new ClientsDAOImpl();
+		clientsDAO= new ClientsDAOImpl();
 
-		clientsDao.setPath(path);
+		clientsDAO.setPath(path);
 	}
 
 	/**
@@ -55,54 +56,51 @@ public class RegisterServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		String url = "";
 		String base = "jsp/";
 		
+		// Get current session
 		HttpSession session = request.getSession(true);
-
 		
 		try {
-			Client client = clientsDao.register(request);
-
+			// Try registering the client using user provided input, found in the request
+			Client client = clientsDAO.register(request);
+			
+			// If the user has been registered successfully
 			if (client != null) {
 				setSessionScope(request, response, client);
 				
+				// Checks if the user is in the process of checking out.
 				String redirect = String.valueOf(session.getAttribute("redirect"));
 				
+				// User is trying to checkout. Redirect them to checkout page.
 				if (redirect.equalsIgnoreCase("redirect")) {
 					url = base + "checkOut.jsp";
 					session.setAttribute("redirect", "");
-				} 
+				}
+				
+				// User is not trying to checkout. Redirect them to account page.
 				else {
 					url = base + "account.jsp";
 				}
 				
-			} 
-			else {
-				request.setAttribute("error", "error");
-				url = base + "register.jsp";
+				session.setAttribute("loggedIn", "yes");
+				session.setAttribute("status", "client"); 
 			}
-			
-			session.setAttribute("loggedIn", "yes");
-			// Default list of admins
-			session.setAttribute("status", "client"); 
 		}
 		catch (Exception e) {
-
+			e.printStackTrace();
 		}
-
+		
 		RequestDispatcher req = request.getRequestDispatcher(url);
 		req.forward(request, response);
-	} 
-
-
+	}
 
 	private void setSessionScope(HttpServletRequest request, HttpServletResponse response, Client client) {
+		// Get current session
 		HttpSession session = request.getSession(true);
-
-		// Setting session scope attributes
-		// Can be condensed with session.setAttributes("client", client);
+		
+		// Set session attributes related to the user
 		session.setAttribute("userid", client.getID());
 		session.setAttribute("username", client.getUsername());
 		session.setAttribute("password", client.getPassword());

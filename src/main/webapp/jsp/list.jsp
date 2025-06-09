@@ -14,6 +14,12 @@
 </head>
 <body>
 <form method='get' action="CartServlet">
+		<div>
+		<!--	<c:if test="${itemList != null}">
+				<span class="label" style="margin-left: 15px;"> List of Items
+				</span>
+			</c:if> -->
+		</div>
 		<!-- Displays the brand/category/searchterm -->
 		<div>
 			<c:if test="${displayMsg != null}">
@@ -38,14 +44,15 @@
 
 			<c:forEach items="${itemList}" var="item">
 				<tr>
-					<!-- Display name -->
+					<!-- display name -->
 					<td>${item.getName() }</td>
 
-					<!-- Display price -->
+					<!-- display price -->
 					<td>$${item.getPrice()}</td>
-					<!-- Button to view more details -->
+					<!-- button to obtain more details (which also contains add to cart button -->
+					<!-- WIP -->
 					<td>
-						<a href="CatalogServlet?action=itemSelected&itemID=${item.itemID}"> View Details</a>
+							<a href="CatalogServlet?action=itemSelected&itemID=${item.itemID}"> View Details</a>
 						
 					</td>
 				</tr>
